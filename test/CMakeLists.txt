@@ -5,7 +5,7 @@ include_directories(${GTEST_INCLUDE_DIRS} ${INCLUDE_DIRS})
 # set(GTEST_RANDOM_SEED 0-9999)
 
 set(test_sources
-    ann_test
+    matrix_ops_test
 )
 
 add_executable(tests ${test_sources})
