@@ -49,3 +49,25 @@ double** MatrixOps::multiply(double **matrix, const double &scalar, const size_t
     return result;
 }
 
+double** MatrixOps::multiply (
+        double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+        double **matrix_two, const size_t &rows_two, const size_t &cols_two) {
+    // We check for correct matrix sizes before allocating any memory.
+    if (cols_one != rows_two) {
+        //TODO This should be logged.
+        throw logic_error("Matrices are not of compatible size.");
+    }
+
+    double **result = newMatrix(rows_one, cols_two);
+
+    for (size_t r = 0; r < rows_one; r++) {
+        for (size_t c = 0; c < cols_two; c++) {
+            result[r][c] = 0;
+            for (size_t i = 0; i < cols_one; i++) {
+                result[r][c] += matrix_one[r][i] * matrix_two[i][c];
+            }
+        }
+    }
+    return result;
+}
+

@@ -2,6 +2,7 @@
 #define MATRIX_OPS_H
 
 #include <cstddef>
+#include <stdexcept>
 
 using namespace std;
 
@@ -57,7 +58,7 @@ public:
 
     /**
      * Method that returns a matrix multiplied by a scalar.
-     * This method allocates memory for the new matrix and will not modiffy the
+     * This method allocates memory for the new matrix and will not modify the
      * input matrix.
      *
      * @param matrix Matrix to multiply.
@@ -68,6 +69,25 @@ public:
      * scalar.
      */
     static double** multiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that returns a matrix that is the product of two multiplied
+     * matrices.
+     * This method allocates memory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param rows_one Number of rows in matrix_one.
+     * @param cols_one Number of columns in matrix_two.
+     * @param matrix_two The second input matrix.
+     * @param rows_two Number of rows in matrix_one.
+     * @param cols_two Number of columns in matrix_two.
+     * @return New matrix that is product of the two input matrices.
+     * @throw logic_error
+     */
+    static double** multiply(
+            double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+            double **matrix_two, const size_t &rows_two, const size_t &cols_two);
 };
 
 #endif //MATRIX_OPS_H
