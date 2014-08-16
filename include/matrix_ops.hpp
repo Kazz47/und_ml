@@ -40,7 +40,20 @@ public:
      * @param cols Number of columns in the input matrix.
      * @return New matrix that is the transpose of the input matrix.
      */
-    static double** transpose(double **&matrix, const size_t &rows, const size_t &cols);
+    static double** transpose(double **matrix, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that returns the addition of two matrices.
+     * This method allocates memory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param matrix_two The second input matrix.
+     * @param rows Number of rows in the input matrices.
+     * @param cols Number of columns in the input matrices.
+     * @return New matrix that is the addition of the two input matrices.
+     */
+    static double** add(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
 };
 
 #endif //MATRIX_OPS_H
