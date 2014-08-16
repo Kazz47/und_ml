@@ -201,7 +201,7 @@ TEST(MatrixOpsTest, ScalarMatrixMultiply) {
     expectedVal[2][2] = 18;
 
     // Test
-    double** actualVal = MatrixOps::multiply(matrix, scalar, 3, 3);
+    double** actualVal = MatrixOps::scalarMultiply(matrix, scalar, 3, 3);
 
     for (int r = 0; r < 3; r++) {
         for (int c = 0; c < 3; c++) {
@@ -301,3 +301,46 @@ TEST(MatrixOpsTest, MatrixMultiplyBadSizes) {
     MatrixOps::deleteMatrix(matrix_two, 2);
     MatrixOps::deleteMatrix(matrix_one, 3);
 }
+
+TEST(MatrixOpsTest, HadamardMultiply) {
+    // Setup
+    double **matrix_one = MatrixOps::newMatrix(3, 2);
+    matrix_one[0][0] = 1;
+    matrix_one[0][1] = 2;
+    matrix_one[1][0] = 3;
+    matrix_one[1][1] = 4;
+    matrix_one[2][0] = 5;
+    matrix_one[2][1] = 6;
+
+    double **matrix_two = MatrixOps::newMatrix(3, 2);
+    matrix_two[0][0] = 6;
+    matrix_two[0][1] = 5;
+    matrix_two[1][0] = 4;
+    matrix_two[1][1] = 3;
+    matrix_two[2][0] = 2;
+    matrix_two[2][1] = 1;
+
+    double **expectedVal = MatrixOps::newMatrix(3, 2);
+    expectedVal[0][0] = 6;
+    expectedVal[0][1] = 10;
+    expectedVal[1][0] = 12;
+    expectedVal[1][1] = 12;
+    expectedVal[2][0] = 10;
+    expectedVal[2][1] = 6;
+
+    // Test
+    double** actualVal = MatrixOps::hadamardMultiply(matrix_one, matrix_two, 3, 2);
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 2; c++) {
+            ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(actualVal, 3);
+    MatrixOps::deleteMatrix(expectedVal, 3);
+    MatrixOps::deleteMatrix(matrix_two, 3);
+    MatrixOps::deleteMatrix(matrix_one, 3);
+}
+

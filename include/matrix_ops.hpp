@@ -68,7 +68,7 @@ public:
      * @return New matrix that is the input matrix multiplied by the provided
      * scalar.
      */
-    static double** multiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols);
+    static double** scalarMultiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols);
 
     /**
      * Method that returns a matrix that is the product of two multiplied
@@ -88,6 +88,20 @@ public:
     static double** multiply(
             double **matrix_one, const size_t &rows_one, const size_t &cols_one,
             double **matrix_two, const size_t &rows_two, const size_t &cols_two);
+
+    /**
+     * Method that returns a matrix that is the hadamard product of two
+     * matrices.
+     * This method allocates memory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param matrix_two The second input matrix.
+     * @param rows Number of rows in the matrices.
+     * @param cols Number of columns in the matrices.
+     * @return New matrix that is hadamard product of the two input matrices.
+     */
+    static double** hadamardMultiply(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
 };
 
 #endif //MATRIX_OPS_H

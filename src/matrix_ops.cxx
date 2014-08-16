@@ -38,7 +38,7 @@ double** MatrixOps::add(double **matrix_one, double **matrix_two, const size_t &
     return result;
 }
 
-double** MatrixOps::multiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols) {
+double** MatrixOps::scalarMultiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols) {
     double **result = newMatrix(rows, cols);
 
     for (size_t r = 0; r < rows; r++) {
@@ -66,6 +66,17 @@ double** MatrixOps::multiply (
             for (size_t i = 0; i < cols_one; i++) {
                 result[r][c] += matrix_one[r][i] * matrix_two[i][c];
             }
+        }
+    }
+    return result;
+}
+
+double** MatrixOps::hadamardMultiply(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols) {
+    double **result = newMatrix(rows, cols);
+
+    for (size_t r = 0; r < rows; r++) {
+        for (size_t c = 0; c < cols; c++) {
+            result[r][c] = matrix_one[r][c] * matrix_two[r][c];
         }
     }
     return result;
