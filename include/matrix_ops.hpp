@@ -54,6 +54,20 @@ public:
      * @return New matrix that is the addition of the two input matrices.
      */
     static double** add(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that returns a matrix multiplied by a scalar.
+     * This method allocates memory for the new matrix and will not modiffy the
+     * input matrix.
+     *
+     * @param matrix Matrix to multiply.
+     * @param scalar Scalar to multiply the matrix.
+     * @param rows Number of rows in the input matrix.
+     * @param cols Number of columns in the input matrix.
+     * @return New matrix that is the input matrix multiplied by the provided
+     * scalar.
+     */
+    static double** multiply(double **matrix, const double &scalar, const size_t &rows, const size_t &cols);
 };
 
 #endif //MATRIX_OPS_H

@@ -174,3 +174,44 @@ TEST(MatrixOpsTest, MatrixAdd) {
     MatrixOps::deleteMatrix(matrix_one, 3);
 }
 
+TEST(MatrixOpsTest, MatrixMultiply) {
+    // Setup
+    double **matrix = MatrixOps::newMatrix(3, 3);
+    matrix[0][0] = 1;
+    matrix[0][1] = 2;
+    matrix[0][2] = 3;
+    matrix[1][0] = 4;
+    matrix[1][1] = 5;
+    matrix[1][2] = 6;
+    matrix[2][0] = 7;
+    matrix[2][1] = 8;
+    matrix[2][2] = 9;
+
+    double scalar = 2.0;
+
+    double **expectedVal = MatrixOps::newMatrix(3, 3);
+    expectedVal[0][0] = 2;
+    expectedVal[0][1] = 4;
+    expectedVal[0][2] = 6;
+    expectedVal[1][0] = 8;
+    expectedVal[1][1] = 10;
+    expectedVal[1][2] = 12;
+    expectedVal[2][0] = 14;
+    expectedVal[2][1] = 16;
+    expectedVal[2][2] = 18;
+
+    // Test
+    double** actualVal = MatrixOps::multiply(matrix, scalar, 3, 3);
+
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 3; c++) {
+            ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(actualVal, 3);
+    MatrixOps::deleteMatrix(expectedVal, 3);
+    MatrixOps::deleteMatrix(matrix, 3);
+}
+
