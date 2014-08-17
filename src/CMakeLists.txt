@@ -1,5 +1,6 @@
 set(SOURCES
     matrix_ops
+    ann
 )
 
 include_directories(${INCLUDE_DIRS})

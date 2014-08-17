@@ -1,10 +1,6 @@
 #include "gtest/gtest.h"
 #include "matrix_ops.hpp"
 
-TEST(TestTest, SuccessfulBuild) {
-    SUCCEED();
-}
-
 TEST(MatrixTest, MakeNewMatrixNotNull) {
     double **actualVal = MatrixOps::newMatrix(1, 1);
     double **expectedVal = NULL;

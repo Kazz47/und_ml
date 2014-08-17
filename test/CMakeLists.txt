@@ -6,6 +6,7 @@ include_directories(${GTEST_INCLUDE_DIRS} ${INCLUDE_DIRS})
 
 set(test_sources
     matrix_ops_test
+    ann_test
 )
 
 add_executable(tests ${test_sources})
