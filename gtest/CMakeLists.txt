@@ -1,7 +1,7 @@
 # This file loads googletest (https://github.com/smarr/googletest) during build time.
 
 include(ExternalProject)
-  
+
 # Add gtest
 ExternalProject_Add(googletest
     GIT_REPOSITORY https://github.com/smarr/googletest.git
