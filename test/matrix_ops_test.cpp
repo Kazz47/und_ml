@@ -430,3 +430,63 @@ TEST(MatrixOpsTest, HorizontalConcatBadSizes) {
     MatrixOps::deleteMatrix(matrix_one, 4);
 }
 
+TEST(MatrixOpsTest, VerticalConcat) {
+    // Setup
+    double **matrix_one = MatrixOps::newMatrix(2, 2);
+    matrix_one[0][0] = 1;
+    matrix_one[0][1] = 2;
+    matrix_one[1][0] = 3;
+    matrix_one[1][1] = 4;
+
+    double **matrix_two = MatrixOps::newMatrix(2, 2);
+    matrix_two[0][0] = 0;
+    matrix_two[0][1] = 5;
+    matrix_two[1][0] = 6;
+    matrix_two[1][1] = 7;
+
+    double **expectedVal = MatrixOps::newMatrix(4, 2);
+    expectedVal[0][0] = 1;
+    expectedVal[0][1] = 2;
+    expectedVal[1][0] = 3;
+    expectedVal[1][1] = 4;
+    expectedVal[2][0] = 0;
+    expectedVal[2][1] = 5;
+    expectedVal[3][0] = 6;
+    expectedVal[3][1] = 7;
+
+    // Test
+    double** actualVal = MatrixOps::verticalConcat(matrix_one, 2, 2, matrix_two, 2, 2);
+
+    for (int r = 0; r < 4; r++) {
+        for (int c = 0; c < 2; c++) {
+            ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(actualVal, 4);
+    MatrixOps::deleteMatrix(expectedVal, 4);
+    MatrixOps::deleteMatrix(matrix_two, 2);
+    MatrixOps::deleteMatrix(matrix_one, 2);
+}
+
+TEST(MatrixOpsTest, VerticalConcatBadSizes) {
+    // Setup
+    double **matrix_one = MatrixOps::newMatrix(2, 4);
+    double **matrix_two = MatrixOps::newMatrix(2, 2);
+
+    // Test
+    try {
+        double** actualVal = MatrixOps::verticalConcat(matrix_one, 2, 4, matrix_two, 2, 2);
+
+        MatrixOps::deleteMatrix(actualVal, 2);
+        FAIL();
+    } catch(logic_error e) {
+        SUCCEED();
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(matrix_two, 2);
+    MatrixOps::deleteMatrix(matrix_one, 2);
+}
+

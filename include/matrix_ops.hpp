@@ -132,10 +132,32 @@ public:
      * @param matrix_two The second input matrix.
      * @param rows_two Number of rows in matrix_one.
      * @param cols_two Number of columns in matrix_two.
+     * @return New matrix that is the horizontal concatenation of the two input matrices.
+     * @throw logic_error
      */
-    static double ** horizontalConcat(
+    static double** horizontalConcat(
+            double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+            double **matrix_two, const size_t &rows_two, const size_t &cols_two);
+
+    /**
+     * Method that returns a matrix that is the vertical concatenation of two
+     * input matrices.
+     * Thie method allocates mempory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param rows_one Number of rows in matrix_one.
+     * @param cols_one Number of columns in matrix_two.
+     * @param matrix_two The second input matrix.
+     * @param rows_two Number of rows in matrix_one.
+     * @param cols_two Number of columns in matrix_two.
+     * @return New matrix that is the vertical concatenation of the two input matrices.
+     * @throw logic_error
+     */
+    static double** verticalConcat(
             double **matrix_one, const size_t &rows_one, const size_t &cols_one,
             double **matrix_two, const size_t &rows_two, const size_t &cols_two);
 };
 
 #endif //MATRIX_OPS_H
+
