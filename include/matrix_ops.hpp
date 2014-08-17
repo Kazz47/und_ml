@@ -74,7 +74,7 @@ public:
      * Method that returns a matrix that is the product of two multiplied
      * matrices.
      * This method allocates memory for the new matrix and will not modify the
-     * input matrices.
+     * input matrix.
      *
      * @param matrix_one The first input matrix.
      * @param rows_one Number of rows in matrix_one.
@@ -82,7 +82,7 @@ public:
      * @param matrix_two The second input matrix.
      * @param rows_two Number of rows in matrix_one.
      * @param cols_two Number of columns in matrix_two.
-     * @return New matrix that is product of the two input matrices.
+     * @return New matrix that is the product of the two input matrices.
      * @throw logic_error
      */
     static double** multiply(
@@ -102,6 +102,27 @@ public:
      * @return New matrix that is hadamard product of the two input matrices.
      */
     static double** hadamardMultiply(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that returns a matrix that is the kronecker product of two matrices.
+     * This method allocates memory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param rows_one Number of rows in matrix_one.
+     * @param cols_one Number of columns in matrix_two.
+     * @param matrix_two The second input matrix.
+     * @param rows_two Number of rows in matrix_one.
+     * @param cols_two Number of columns in matrix_two.
+     * @return New matrix that is the kronecker product of the two input matrices.
+     */
+    static double** kroneckerMultiply(
+            double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+            double **matrix_two, const size_t &rows_two, const size_t &cols_two);
+
+    static double ** horizontalConcat(
+            double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+            double **matrix_two, const size_t &rows_two, const size_t &cols_two);
 };
 
 #endif //MATRIX_OPS_H
