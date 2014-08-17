@@ -102,3 +102,25 @@ double** MatrixOps::kroneckerMultiply(
     return result;
 }
 
+double** MatrixOps::horizontalConcat(
+        double **matrix_one, const size_t &rows_one, const size_t &cols_one,
+        double **matrix_two, const size_t &rows_two, const size_t &cols_two) {
+    // We check for correct matrix sizes before allocating any memory.
+    if (rows_one != rows_two) {
+        //TODO This should be logged.
+        throw logic_error("Matrices are not of compatible size.");
+    }
+    double **result = newMatrix(rows_one, cols_one + cols_two);
+
+    for (size_t r = 0; r < rows_one; r++) {
+        for (size_t c = 0; c < cols_one + cols_two; c++) {
+            if (c < cols_one) {
+                result[r][c] = matrix_one[r][c];
+            } else {
+                result[r][c] = matrix_two[r][c - cols_one];
+            }
+        }
+    }
+    return result;
+}
+

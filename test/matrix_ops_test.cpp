@@ -263,28 +263,7 @@ TEST(MatrixOpsTest, MatrixMultiply) {
 TEST(MatrixOpsTest, MatrixMultiplyBadSizes) {
     // Setup
     double **matrix_one = MatrixOps::newMatrix(3, 1);
-    matrix_one[0][0] = 1;
-    matrix_one[1][0] = 2;
-    matrix_one[2][0] = 3;
-
     double **matrix_two = MatrixOps::newMatrix(2, 3);
-    matrix_two[0][0] = 7;
-    matrix_two[0][1] = 8;
-    matrix_two[0][2] = 9;
-    matrix_two[1][0] = 10;
-    matrix_two[1][1] = 11;
-    matrix_two[1][2] = 12;
-
-    double **expectedVal = MatrixOps::newMatrix(3, 3);
-    expectedVal[0][0] = 47;
-    expectedVal[0][1] = 52;
-    expectedVal[0][2] = 57;
-    expectedVal[1][0] = 64;
-    expectedVal[1][1] = 71;
-    expectedVal[1][2] = 78;
-    expectedVal[2][0] = 81;
-    expectedVal[2][1] = 90;
-    expectedVal[2][2] = 99;
 
     // Test
     try {
@@ -297,7 +276,6 @@ TEST(MatrixOpsTest, MatrixMultiplyBadSizes) {
     }
 
     // Tear Down
-    MatrixOps::deleteMatrix(expectedVal, 3);
     MatrixOps::deleteMatrix(matrix_two, 2);
     MatrixOps::deleteMatrix(matrix_one, 3);
 }
@@ -379,8 +357,8 @@ TEST(MatrixOpsTest, KroneckerMultiply) {
     // Test
     double** actualVal = MatrixOps::kroneckerMultiply(matrix_one, 2, 2, matrix_two, 2, 2);
 
-    for (int r = 0; r < 3; r++) {
-        for (int c = 0; c < 2; c++) {
+    for (int r = 0; r < 4; r++) {
+        for (int c = 0; c < 4; c++) {
             ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
         }
     }
@@ -392,7 +370,7 @@ TEST(MatrixOpsTest, KroneckerMultiply) {
     MatrixOps::deleteMatrix(matrix_one, 2);
 }
 
-TEST(MatrixOpsTest, DISABLED_HorizontalConcat) {
+TEST(MatrixOpsTest, HorizontalConcat) {
     // Setup
     double **matrix_one = MatrixOps::newMatrix(2, 2);
     matrix_one[0][0] = 1;
@@ -407,36 +385,48 @@ TEST(MatrixOpsTest, DISABLED_HorizontalConcat) {
     matrix_two[1][1] = 7;
 
     double **expectedVal = MatrixOps::newMatrix(2, 4);
-    expectedVal[0][0] = 0;
-    expectedVal[0][1] = 5;
+    expectedVal[0][0] = 1;
+    expectedVal[0][1] = 2;
     expectedVal[0][2] = 0;
-    expectedVal[0][3] = 10;
-    expectedVal[1][0] = 6;
-    expectedVal[1][1] = 7;
-    expectedVal[1][2] = 12;
-    expectedVal[1][3] = 14;
-    expectedVal[2][0] = 0;
-    expectedVal[2][1] = 15;
-    expectedVal[2][2] = 0;
-    expectedVal[2][3] = 20;
-    expectedVal[3][0] = 18;
-    expectedVal[3][1] = 21;
-    expectedVal[3][2] = 24;
-    expectedVal[3][3] = 28;
+    expectedVal[0][3] = 5;
+    expectedVal[1][0] = 3;
+    expectedVal[1][1] = 4;
+    expectedVal[1][2] = 6;
+    expectedVal[1][3] = 7;
 
     // Test
-    double** actualVal = MatrixOps::kroneckerMultiply(matrix_one, 2, 2, matrix_two, 2, 2);
+    double** actualVal = MatrixOps::horizontalConcat(matrix_one, 2, 2, matrix_two, 2, 2);
 
-    for (int r = 0; r < 3; r++) {
-        for (int c = 0; c < 2; c++) {
+    for (int r = 0; r < 2; r++) {
+        for (int c = 0; c < 4; c++) {
             ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
         }
     }
 
     // Tear Down
-    MatrixOps::deleteMatrix(actualVal, 4);
-    MatrixOps::deleteMatrix(expectedVal, 4);
+    MatrixOps::deleteMatrix(actualVal, 2);
+    MatrixOps::deleteMatrix(expectedVal, 2);
     MatrixOps::deleteMatrix(matrix_two, 2);
     MatrixOps::deleteMatrix(matrix_one, 2);
+}
+
+TEST(MatrixOpsTest, HorizontalConcatBadSizes) {
+    // Setup
+    double **matrix_one = MatrixOps::newMatrix(4, 2);
+    double **matrix_two = MatrixOps::newMatrix(2, 2);
+
+    // Test
+    try {
+        double** actualVal = MatrixOps::horizontalConcat(matrix_one, 4, 2, matrix_two, 2, 2);
+
+        MatrixOps::deleteMatrix(actualVal, 4);
+        FAIL();
+    } catch(logic_error e) {
+        SUCCEED();
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(matrix_two, 2);
+    MatrixOps::deleteMatrix(matrix_one, 4);
 }
 
