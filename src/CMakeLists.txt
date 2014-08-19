@@ -1,5 +1,6 @@
 set(SOURCES
     matrix_ops
+    log_sigmoid
     ann
 )
 
@@ -11,3 +12,4 @@ include_directories(${INCLUDE_DIRS})
 
 add_library(ann_static STATIC ${SOURCES})
 add_library(ann_shared SHARED ${SOURCES})
+

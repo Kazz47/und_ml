@@ -16,7 +16,7 @@ public:
      * @param x Input value.
      * @return The value of the kernel function at the given x value.
      */
-    static double kernelFunc(const double &x) = 0;
+    virtual double kernelFunc(const double &x) = 0;
 
     /*
      * Function that computes the kernel derivative value at the given 'x'.
@@ -24,7 +24,7 @@ public:
      * @param x Input value.
      * @return The derivative of the kernel function at the given x value.
      */
-    static double kernelDeriv(const double &x) = 0;
+    virtual double kernelDeriv(const double &x) = 0;
 };
 
 #endif //KERNEL_H

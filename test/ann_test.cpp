@@ -1,44 +1,9 @@
 #include "gtest/gtest.h"
-#include "ann.hpp"
 #include "matrix_ops.hpp"
+#include "ann.hpp"
+#include "log_sigmoid.hpp"
 
-TEST(AnnTest, MatrixToClass) {
-    double **matrix = MatrixOps::newMatrix(5, 3);
-    matrix[0][0] = 1;
-    matrix[0][1] = 0;
-    matrix[0][2] = 0;
-    matrix[1][0] = 0;
-    matrix[1][1] = 1;
-    matrix[1][2] = 0;
-    matrix[2][0] = 0;
-    matrix[2][1] = 0;
-    matrix[2][2] = 1;
-    matrix[3][0] = 1;
-    matrix[3][1] = 0;
-    matrix[3][2] = 0;
-    matrix[4][0] = 0;
-    matrix[4][1] = 0;
-    matrix[4][2] = 1;
-
-    unsigned int *expectedVal = new unsigned int[5];
-    expectedVal[0] = 1;
-    expectedVal[1] = 2;
-    expectedVal[2] = 3;
-    expectedVal[3] = 1;
-    expectedVal[4] = 3;
-
-    unsigned int *actualVal = Ann::matrixToClass(matrix, 5, 3);
-
-    for (int i = 0; i < 5; i++) {
-        ASSERT_EQ(expectedVal[i], actualVal[i]);
-    }
-
-    delete[] actualVal;
-    delete[] expectedVal;
-    MatrixOps::deleteMatrix(matrix, 5);
-}
-
-TEST(AnnTest, DISABLED_FeedForward) {
+TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
     double **input = MatrixOps::newMatrix(2, 2);
     input[0][0] = 1;
     input[0][1] = 2;
@@ -46,33 +11,37 @@ TEST(AnnTest, DISABLED_FeedForward) {
     input[1][1] = 4;
 
     double **weights = MatrixOps::newMatrix(2, 2);
-    weights[0][0] = 1;
-    weights[0][1] = 2;
-    weights[1][0] = 3;
-    weights[1][1] = 4;
+    weights[0][0] = 0;
+    weights[0][1] = 0;
+    weights[1][0] = 0;
+    weights[1][1] = 0;
 
-    double **bias = MatrixOps::newMatrix(2, 2);
-    bias[0][0] = 1;
-    bias[0][1] = 2;
-    bias[1][0] = 3;
-    bias[1][1] = 4;
+    double **bias = MatrixOps::newMatrix(2, 1);
+    bias[0][0] = 0;
+    bias[0][1] = 0;
 
-    unsigned int *expectedVal = new unsigned int[5];
-    expectedVal[0] = 1;
-    expectedVal[1] = 2;
-    expectedVal[2] = 3;
-    expectedVal[3] = 1;
-    expectedVal[4] = 3;
+    double **expectedVal = MatrixOps::newMatrix(2, 2);
+    expectedVal[0][0] = 0.7310585786300048792511592418218362743651446401650565192763659079190404530702046393874745320759812453;
+    expectedVal[0][1] = 0.8807970779778824440597291413023967952063842986289682757984052500609766222883192417294737608368383572;
+    expectedVal[1][0] = 0.9525741268224332191211518482282477986138205675793908992821119912255512884972897661142163455089399610;
+    expectedVal[1][1] = 0.9820137900379084419732068620504615751275149881204673880241316087065539731588051012797374250226038446;
 
-    unsigned int *actualVal = Ann::matrixToClass(input, 5, 3);
-
-    for (int i = 0; i < 5; i++) {
-        ASSERT_EQ(expectedVal[i], actualVal[i]);
+    LogSigmoid kernel;
+    Ann<LogSigmoid> net(kernel);
+    double **actualVal = net.feedForward(
+            input, 2, 2,
+            weights, 2, 2,
+            bias, 2, 1);
+    for (int r = 0; r < 2; r++) {
+        for (int c = 0; c < 2; c++) {
+            ASSERT_DOUBLE_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
     }
 
-    delete[] actualVal;
-    delete[] expectedVal;
+    MatrixOps::deleteMatrix(actualVal, 2);
+    MatrixOps::deleteMatrix(expectedVal, 2);
     MatrixOps::deleteMatrix(bias, 2);
     MatrixOps::deleteMatrix(weights, 2);
     MatrixOps::deleteMatrix(input, 2);
 }
+

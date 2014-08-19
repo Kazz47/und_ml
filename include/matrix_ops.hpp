@@ -157,6 +157,30 @@ public:
     static double** verticalConcat(
             double **matrix_one, const size_t &rows_one, const size_t &cols_one,
             double **matrix_two, const size_t &rows_two, const size_t &cols_two);
+
+    /**
+     * Method to parse a matrix and return a vector of classes.
+     * Classes start with a value of 1 and are incremented for each new class.
+     *
+     * @param matrix Matrix to vectorize into classes.
+     * @param rows Number of rows in the matrix.
+     * @param cols Number of columns in the matrix.
+     * @return The vector of classes for each matrix row.
+     */
+    static unsigned int* matrixToClass(double **matrix, const size_t &rows, const size_t &cols);
+
+private:
+
+    /*
+     * Method to check each row in a matrix for the values in a provided array.
+     *
+     * @param row Array of values to find.
+     * @param matrix Matrix to search.
+     * @param rows Number of rows in the matrix.
+     * @param cols Number of columns in the matrix.
+     * @return The row index of the row if found, otherwise -1.
+     */
+    static long rowInMatrix(double *row, double **matrix, const size_t &rows, const size_t &cols);
 };
 
 #endif //MATRIX_OPS_H

@@ -8,8 +8,14 @@ using namespace std;
 /**
  * Class for training and using an Artifical Neural Network (ANN).
  */
+template <typename K>
 class Ann {
 public:
+
+    Ann(const K kernel);
+    //~Ann();
+
+    //TODO Update this comment
     /**
      * Method to pass inputs through a ANN and get classification results.
      *
@@ -18,31 +24,13 @@ public:
      * @param bias Matrix of bias for the ANN nodes.
      * @return The resulting classification matrix.
      */
-    static double** feedForward(double **input, double **weights, double **bias);
-
-    /**
-     * Method to parse a matrix and return a vector of classes.
-     * Classes start with a value of 1 and are incremented for each new class.
-     *
-     * @param matrix Matrix to vectorize into classes.
-     * @param rows Number of rows in the matrix.
-     * @param cols Number of columns in the matrix.
-     * @return The vector of classes for each matrix row.
-     */
-    static unsigned int* matrixToClass(double **matrix, const size_t &rows, const size_t &cols);
+    double** feedForward(
+            double **input, const size_t &input_rows, const size_t &input_cols,
+            double **weights, const size_t &weights_rows, const size_t &weights_cols,
+            double **bias, const size_t &bias_rows, const size_t &bias_cols);
 
 private:
-
-    /*
-     * Method to check each row in a matrix for the values in a provided array.
-     *
-     * @param row Array of values to find.
-     * @param matrix Matrix to search.
-     * @param rows Number of rows in the matrix.
-     * @param cols Number of columns in the matrix.
-     * @return The row index of the row if found, otherwise -1.
-     */
-    static long rowInMatrix(double *row, double **matrix, const size_t &rows, const size_t &cols);
+    K kernel;
 };
 
 #endif //ANN_H
