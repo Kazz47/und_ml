@@ -16,9 +16,9 @@ add_dependencies(tests googletest)
 
 target_link_libraries(tests
     ${GTEST_LIBS_DIR}/libgtest.a
-	${GTEST_LIBS_DIR}/libgtest_main.a
-	pthread
-	ann_shared
+    ${GTEST_LIBS_DIR}/libgtest_main.a
+    pthread
+    ann_shared
 )
 
 # Run the Tests

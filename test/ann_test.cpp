@@ -37,3 +37,42 @@ TEST(AnnTest, MatrixToClass) {
     delete[] expectedVal;
     MatrixOps::deleteMatrix(matrix, 5);
 }
+
+TEST(AnnTest, DISABLED_FeedForward) {
+    double **input = MatrixOps::newMatrix(2, 2);
+    input[0][0] = 1;
+    input[0][1] = 2;
+    input[1][0] = 3;
+    input[1][1] = 4;
+
+    double **weights = MatrixOps::newMatrix(2, 2);
+    weights[0][0] = 1;
+    weights[0][1] = 2;
+    weights[1][0] = 3;
+    weights[1][1] = 4;
+
+    double **bias = MatrixOps::newMatrix(2, 2);
+    bias[0][0] = 1;
+    bias[0][1] = 2;
+    bias[1][0] = 3;
+    bias[1][1] = 4;
+
+    unsigned int *expectedVal = new unsigned int[5];
+    expectedVal[0] = 1;
+    expectedVal[1] = 2;
+    expectedVal[2] = 3;
+    expectedVal[3] = 1;
+    expectedVal[4] = 3;
+
+    unsigned int *actualVal = Ann::matrixToClass(input, 5, 3);
+
+    for (int i = 0; i < 5; i++) {
+        ASSERT_EQ(expectedVal[i], actualVal[i]);
+    }
+
+    delete[] actualVal;
+    delete[] expectedVal;
+    MatrixOps::deleteMatrix(bias, 2);
+    MatrixOps::deleteMatrix(weights, 2);
+    MatrixOps::deleteMatrix(input, 2);
+}

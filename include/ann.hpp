@@ -11,6 +11,16 @@ using namespace std;
 class Ann {
 public:
     /**
+     * Method to pass inputs through a ANN and get classification results.
+     *
+     * @param input Matrix of input values for the ANN.
+     * @param weights Matrix of weights for the ANN nodes.
+     * @param bias Matrix of bias for the ANN nodes.
+     * @return The resulting classification matrix.
+     */
+    static double** feedForward(double **input, double **weights, double **bias);
+
+    /**
      * Method to parse a matrix and return a vector of classes.
      * Classes start with a value of 1 and are incremented for each new class.
      *

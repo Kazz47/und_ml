@@ -1,7 +1,5 @@
 cmake_minimum_required (VERSION 2.8.7)
-project (UND_ML)
-
-# Setup C Flags
+project (UND_ML) # Setup C Flags
 SET (CMAKE_C_FLAGS                "-Wall -std=c99")
 SET (CMAKE_C_FLAGS_DEBUG          "-g")
 SET (CMAKE_C_FLAGS_MINSIZEREL     "-Os -DNDEBUG")
@@ -52,3 +50,4 @@ add_subdirectory(src)
 # Sources
 add_subdirectory(gtest)
 add_subdirectory(test)
+
