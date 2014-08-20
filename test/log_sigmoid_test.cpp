@@ -46,8 +46,8 @@ TEST(LogSigmoidTest, Sigmoid4) {
     ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
-TEST(LogSigmoidTest, DISABLED_SigmoidDeriv0) {
-    double expectedVal = 0.5;
+TEST(LogSigmoidTest, SigmoidDeriv0) {
+    double expectedVal = 0.25;
 
     LogSigmoid kernel;
     double actualVal = kernel.kernelDeriv(0);
@@ -55,8 +55,8 @@ TEST(LogSigmoidTest, DISABLED_SigmoidDeriv0) {
     ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
-TEST(LogSigmoidTest, DISABLED_SigmoidDeriv1) {
-    double expectedVal = 0.2099871708070130346972483695208507224585933641153854773566557201222949497620241528078470044311593630;
+TEST(LogSigmoidTest, SigmoidDeriv1) {
+    double expectedVal = 0.1966119332414818525374247335859090256222672854273135775763268324868302873926450596563475285482006501;
 
     LogSigmoid kernel;
     double actualVal = kernel.kernelDeriv(1);
@@ -64,8 +64,8 @@ TEST(LogSigmoidTest, DISABLED_SigmoidDeriv1) {
     ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
-TEST(LogSigmoidTest, DISABLED_SigmoidDeriv2) {
-    double expectedVal = 0.03532541242658223284312382793052739615606362991882798056243190491343103030472792095272482867191154543;
+TEST(LogSigmoidTest, SigmoidDeriv2) {
+    double expectedVal = 0.1049935854035065173486241847604253612292966820576927386783278600611474748810120764039235022155796815;
 
     LogSigmoid kernel;
     double actualVal = kernel.kernelDeriv(2);
@@ -73,22 +73,22 @@ TEST(LogSigmoidTest, DISABLED_SigmoidDeriv2) {
     ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
-TEST(LogSigmoidTest, DISABLED_SigmoidDeriv3) {
-    double expectedVal = 0.004933018582720095636578084841761743663660804559399863602124745023211662148054750855857728873900145776;
+TEST(LogSigmoidTest, SigmoidDeriv3) {
+    double expectedVal = 0.04517665973091213264936002843565163799485995239748969246454782778480922682026316173926092989723483536;
 
     LogSigmoid kernel;
     double actualVal = kernel.kernelDeriv(3);
 
-    ASSERT_NEAR(expectedVal, actualVal, 0.0000000000000001L);
+    ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
-TEST(LogSigmoidTest, DISABLED_SigmoidDeriv4) {
-    double expectedVal = 0.0006704753415129484399851094516655066155078830348121154630238921104701595170235635223347777256572355192;
+TEST(LogSigmoidTest, SigmoidDeriv4) {
+    double expectedVal = 0.01766270621329111642156191396526369807803181495941399028121595245671551515236396047636241433595577272;
 
 
     LogSigmoid kernel;
     double actualVal = kernel.kernelDeriv(4);
 
-    ASSERT_NEAR(expectedVal, actualVal, 0.0000000000000001L);
+    ASSERT_DOUBLE_EQ(expectedVal, actualVal);
 }
 
