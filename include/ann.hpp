@@ -30,13 +30,18 @@ public:
      */
     double** newRandomMatrix(const size_t &rows, const size_t &cols, const double &max_val, const double &min_val);
 
-    //TODO Update this comment
     /**
      * Method to pass inputs through a ANN and get classification results.
      *
      * @param input Matrix of input values for the ANN.
-     * @param weights Matrix of weights for the ANN nodes.
-     * @param bias Matrix of bias for the ANN nodes.
+     * @param input_rows Number of rows in the input matrix.
+     * @param input_cols Number of columns in the input matrix.
+     * @param weights Matrix of node weights for the ANN.
+     * @param weights_rows Number of rows in the weights matrix.
+     * @param weights_cols Number of columns in the weights matrix.
+     * @param bias Matrix of node bias for the ANN.
+     * @param bias_rows Number of rows in the bias matrix.
+     * @param bias_cols Number of columns in the bias matrix.
      * @return The resulting classification matrix.
      */
     double** feedForward(
