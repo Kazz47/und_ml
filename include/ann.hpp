@@ -49,6 +49,26 @@ public:
             double **weights, const size_t &weights_rows, const size_t &weights_cols,
             double **bias, const size_t &bias_rows, const size_t &bias_cols);
 
+    /**
+     * Method to pass inputs through a ANN and get classification results.
+     *
+     * @param input Matrix of input values for the ANN.
+     * @param input_rows Number of rows in the input matrix.
+     * @param input_cols Number of columns in the input matrix.
+     * @param weights Matrix of node weights for the ANN.
+     * @param weights_rows Number of rows in the weights matrix.
+     * @param weights_cols Number of columns in the weights matrix.
+     * @param bias Matrix of node bias for the ANN.
+     * @param bias_rows Number of rows in the bias matrix.
+     * @param bias_cols Number of columns in the bias matrix.
+     * @param rate Learning rate for backprop.
+     * @return The resulting classification matrix.
+     */
+    double** backProp(
+            double **input, const size_t &input_rows, const size_t &input_cols,
+            double **weights, const size_t &weights_rows, const size_t &weights_cols,
+            double **bias, const size_t &bias_rows, const size_t &bias_cols, const float &rate);
+
 private:
     K kernel;
 };

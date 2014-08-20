@@ -62,3 +62,47 @@ TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
     MatrixOps::deleteMatrix(input, 2);
 }
 
+//TODO This needs to be updated to be update to actually test backprop.
+TEST(AnnTest, DISABLED_BackProp) {
+    double **input = MatrixOps::newMatrix(2, 2);
+    input[0][0] = 1;
+    input[0][1] = 2;
+    input[1][0] = 3;
+    input[1][1] = 4;
+
+    double **weights = MatrixOps::newMatrix(2, 2);
+    weights[0][0] = 0;
+    weights[0][1] = 0;
+    weights[1][0] = 0;
+    weights[1][1] = 0;
+
+    double **bias = MatrixOps::newMatrix(2, 1);
+    bias[0][0] = 0;
+    bias[0][1] = 0;
+
+    double **expectedVal = MatrixOps::newMatrix(2, 2);
+    expectedVal[0][0] = 0;
+    expectedVal[0][1] = 0;
+    expectedVal[1][0] = 0;
+    expectedVal[1][1] = 0;
+
+    LogSigmoid kernel;
+    Ann<LogSigmoid> net(kernel);
+    double **actualVal = net.backProp(
+            input, 2, 2,
+            weights, 2, 2,
+            bias, 2, 1,
+            1);
+    for (int r = 0; r < 2; r++) {
+        for (int c = 0; c < 2; c++) {
+            ASSERT_DOUBLE_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
+    }
+
+    MatrixOps::deleteMatrix(actualVal, 2);
+    MatrixOps::deleteMatrix(expectedVal, 2);
+    MatrixOps::deleteMatrix(bias, 2);
+    MatrixOps::deleteMatrix(weights, 2);
+    MatrixOps::deleteMatrix(input, 2);
+}
+

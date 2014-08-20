@@ -53,6 +53,21 @@ double** Ann<K>::feedForward(
     return result;
 }
 
+template <typename K>
+double** Ann<K>::backProp(
+        double **input, const size_t &input_rows, const size_t &input_cols,
+        double **weights, const size_t &weights_rows, const size_t &weights_cols,
+        double **bias, const size_t &bias_rows, const size_t &bias_cols,
+        const float &rate) {
+    double **result = MatrixOps::newMatrix(weights_rows, weights_cols);
+    for (size_t r = 0; r < weights_rows; r++) {
+        for (size_t c = 0; c < weights_cols; c++) {
+            result[r][c] = weights[r][c];
+        }
+    }
+    return result;
+}
+
 // List all Kernels used here.
 template class Ann<LogSigmoid>;
 
