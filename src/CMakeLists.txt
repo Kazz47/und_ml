@@ -1,6 +1,7 @@
 set(SOURCES
     matrix_ops
     log_sigmoid
+    tan_sigmoid
     ann
 )
 

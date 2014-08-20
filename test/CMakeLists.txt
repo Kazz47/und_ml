@@ -7,6 +7,7 @@ include_directories(${GTEST_INCLUDE_DIRS} ${INCLUDE_DIRS})
 set(test_sources
     matrix_ops_test
     log_sigmoid_test
+    tan_sigmoid_test
     ann_test
 )
 
