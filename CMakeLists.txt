@@ -48,6 +48,6 @@ set(INCLUDE_DIRS
 add_subdirectory(src)
 
 # Sources
-add_subdirectory(gtest)
+add_subdirectory(libs)
 add_subdirectory(test)
 
