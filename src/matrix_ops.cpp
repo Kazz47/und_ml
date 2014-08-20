@@ -2,15 +2,15 @@
 
 double** MatrixOps::newMatrix(const size_t &rows, const size_t &cols) {
     double **result = new double*[rows];
-    for (size_t i = 0; i < rows; i++) {
-        result[i] = new double[cols];
+    for (size_t r = 0; r < rows; r++) {
+        result[r] = new double[cols];
     }
     return result;
 }
 
 void MatrixOps::deleteMatrix(double **&matrix, const size_t &rows) {
-    for (size_t i = 0; i < rows; i++) {
-        delete[] matrix[i];
+    for (size_t r = 0; r < rows; r++) {
+        delete[] matrix[r];
     }
     delete[] matrix;
     matrix = NULL;

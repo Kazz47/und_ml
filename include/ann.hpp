@@ -15,6 +15,21 @@ public:
     Ann(const K kernel);
     //~Ann();
 
+    /**
+     * Method that creates a new matrix filled with random values.
+     * This method allocates memory for a matrix of the specified size.
+     * Call {@link MatrixOps::deleteMatrix} to easily delete the matrix.
+     *
+     * @param rows Number of rows in the new matrix.
+     * @param cols Number of columns in the new matrix.
+     * @param max_val Largest possible random value.
+     * @param min_val Smallest possible random value.
+     * @return New matrix that with the specified number of rows and columns
+     * initialized to values betwen the specified min and max.
+     * @throw logic_error
+     */
+    double** newRandomMatrix(const size_t &rows, const size_t &cols, const double &max_val, const double &min_val);
+
     //TODO Update this comment
     /**
      * Method to pass inputs through a ANN and get classification results.

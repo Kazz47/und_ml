@@ -3,6 +3,23 @@
 #include "ann.hpp"
 #include "log_sigmoid.hpp"
 
+TEST(AnnTest, WeightInitilzation) {
+    LogSigmoid kernel;
+    Ann<LogSigmoid> net(kernel);
+    double max_val = 50;
+    double min_val = 10;
+    double **matrix = net.newRandomMatrix(2, 2, max_val, min_val);
+
+    for (size_t r = 0; r < 2; r++) {
+        for (size_t c = 0; c < 2; c++) {
+            ASSERT_LT(matrix[r][c], max_val);
+            ASSERT_GT(matrix[r][c], min_val);
+        }
+    }
+
+    MatrixOps::deleteMatrix(matrix, 2);
+}
+
 TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
     double **input = MatrixOps::newMatrix(2, 2);
     input[0][0] = 1;
