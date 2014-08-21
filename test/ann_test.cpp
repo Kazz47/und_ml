@@ -63,7 +63,7 @@ TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
 }
 
 //TODO This needs to be updated to be update to actually test backprop.
-TEST(AnnTest, DISABLED_BackProp) {
+TEST(AnnTest, BackProp) {
     double **input = MatrixOps::newMatrix(2, 2);
     input[0][0] = 1;
     input[0][1] = 2;
@@ -104,5 +104,43 @@ TEST(AnnTest, DISABLED_BackProp) {
     MatrixOps::deleteMatrix(bias, 2);
     MatrixOps::deleteMatrix(weights, 2);
     MatrixOps::deleteMatrix(input, 2);
+}
+
+//TODO Update this test, currently it just checks that the train method returns
+//randomly genereated weights.
+TEST(AnnTest, Train) {
+    double **training = MatrixOps::newMatrix(2, 2);
+    training[0][0] = 1;
+    training[0][1] = 2;
+    training[1][0] = 3;
+    training[1][1] = 4;
+
+    double **validation = MatrixOps::newMatrix(2, 2);
+    validation[0][0] = 0;
+    validation[0][1] = 0;
+    validation[1][0] = 0;
+    validation[1][1] = 0;
+
+    double **test = MatrixOps::newMatrix(2, 1);
+    test[0][0] = 0;
+    test[1][0] = 0;
+
+    LogSigmoid kernel;
+    Ann<LogSigmoid> net(kernel);
+    double **actualVal = net.train(
+            training, 2, 2,
+            validation, 2, 2,
+            test, 2, 2);
+    for (int r = 0; r < 1; r++) {
+        for (int c = 0; c < 2; c++) {
+            ASSERT_LT(actualVal[r][c], 0.5);
+            ASSERT_GT(actualVal[r][c], -0.5);
+        }
+    }
+
+    MatrixOps::deleteMatrix(actualVal, 1);
+    MatrixOps::deleteMatrix(test, 2);
+    MatrixOps::deleteMatrix(validation, 2);
+    MatrixOps::deleteMatrix(training, 2);
 }
 

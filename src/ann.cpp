@@ -68,6 +68,50 @@ double** Ann<K>::backProp(
     return result;
 }
 
+template <typename K>
+double** Ann<K>::train(
+        double **training, const size_t &training_rows, const size_t &training_cols,
+        double **validation, const size_t &validation_rows, const size_t &validation_cols,
+        double **test, const size_t &test_rows, const size_t &test_cols) {
+    double **weights = newRandomMatrix(1, training_cols, 0.5, -0.5);
+
+    //Init Bias
+    double **bias_training = MatrixOps::newMatrix(training_rows, 1);
+    for (int i = 0; i < training_rows; i++) {
+        bias_training[i][0] = 1;
+    }
+    double **bias_validation = MatrixOps::newMatrix(validation_rows, 1);
+    for (int i = 0; i < validation_rows; i++) {
+        bias_validation[i][0] = 1;
+    }
+    double **bias_test = MatrixOps::newMatrix(test_rows, 1);
+    for (int i = 0; i < test_rows; i++) {
+        bias_test[i][0] = 1;
+    }
+
+    //Loop
+    int i = 0;
+    while (i < 500) {
+        i++;
+        double **new_weights = backProp(
+                training, training_rows, training_cols,
+                weights, 1, training_cols,
+                bias_training, training_rows, 1,
+                0.1);
+        MatrixOps::deleteMatrix(weights, 1);
+        weights = new_weights;
+    }
+    /*
+    for (int c = 0; c < training_cols; c++) {
+        cout << weights[0][c] << endl;
+    }
+    */
+    MatrixOps::deleteMatrix(bias_test, test_rows);
+    MatrixOps::deleteMatrix(bias_validation, validation_rows);
+    MatrixOps::deleteMatrix(bias_training, training_rows);
+    return weights;
+}
+
 // List all Kernels used here.
 template class Ann<LogSigmoid>;
 
