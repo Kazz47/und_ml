@@ -2,7 +2,7 @@
 #include "file_reader.hpp"
 #include "matrix_ops.hpp"
 
-//TODO Fix these tests so they can be rum from any directory.
+//TODO Fix these tests so they can be run from any directory.
 TEST(FileReaderTest, ReadTestFile) {
     char *val = "../../test/data/iris_test.dat";
     FileReader reader(val);
