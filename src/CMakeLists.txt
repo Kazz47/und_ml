@@ -2,6 +2,7 @@ set(SOURCES
     matrix_ops
     log_sigmoid
     tan_sigmoid
+    file_reader
     ann
 )
 

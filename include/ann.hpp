@@ -12,6 +12,11 @@ template <typename K>
 class Ann {
 public:
 
+    /**
+     * Artificial Neural Network constructor.
+     *
+     * @param kernel The kernel function to use in each network node.
+     */
     Ann(const K kernel);
     //~Ann();
 

@@ -8,6 +8,7 @@ set(test_sources
     matrix_ops_test
     log_sigmoid_test
     tan_sigmoid_test
+    file_reader_test
     ann_test
 )
 
@@ -26,8 +27,8 @@ target_link_libraries(tests
 # Run the Tests
 add_custom_command(
     OUTPUT testOut.dat
+    COMMENT "Running tests"
     COMMAND tests --gtest_shuffle
-    COMMENT "Running Tests"
 )
 
 add_custom_target(
