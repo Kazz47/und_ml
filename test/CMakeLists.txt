@@ -10,6 +10,7 @@ set(test_sources
     tan_sigmoid_test
     file_reader_test
     ann_test
+    integration_test
 )
 
 add_executable(tests ${test_sources})
