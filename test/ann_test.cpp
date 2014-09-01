@@ -20,7 +20,9 @@ TEST(AnnTest, WeightInitilzation) {
     MatrixOps::deleteMatrix(matrix, 2);
 }
 
-TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
+// This test works with component-wise multiplication, not matrix
+// multiplication.
+TEST(AnnTest, DISABLED_FeedForwardLogSigmoid) {
     double **input = MatrixOps::newMatrix(2, 2);
     input[0][0] = 1;
     input[0][1] = 2;
@@ -28,14 +30,14 @@ TEST(AnnTest, DISABLED_FeedForwardLogSigmoidNoBias) {
     input[1][1] = 4;
 
     double **weights = MatrixOps::newMatrix(2, 2);
-    weights[0][0] = 0;
+    weights[0][0] = 1;
     weights[0][1] = 0;
-    weights[1][0] = 0;
+    weights[1][0] = 1;
     weights[1][1] = 0;
 
     double **bias = MatrixOps::newMatrix(2, 1);
-    bias[0][0] = 0;
-    bias[0][1] = 0;
+    bias[0][0] = 1;
+    bias[0][1] = 1;
 
     double **expectedVal = MatrixOps::newMatrix(2, 2);
     expectedVal[0][0] = 0.7310585786300048792511592418218362743651446401650565192763659079190404530702046393874745320759812453;
@@ -77,8 +79,8 @@ TEST(AnnTest, BackProp) {
     weights[1][1] = 0;
 
     double **bias = MatrixOps::newMatrix(2, 1);
-    bias[0][0] = 0;
-    bias[0][1] = 0;
+    bias[0][0] = 1;
+    bias[0][1] = 1;
 
     double **expectedVal = MatrixOps::newMatrix(2, 2);
     expectedVal[0][0] = 0;
@@ -142,5 +144,55 @@ TEST(AnnTest, Train) {
     MatrixOps::deleteMatrix(test, 2);
     MatrixOps::deleteMatrix(validation, 2);
     MatrixOps::deleteMatrix(training, 2);
+}
+
+TEST(AnnTest, SetError) {
+    double **input = MatrixOps::newMatrix(2, 2);
+    input[0][0] = 1;
+    input[0][1] = 2;
+    input[1][0] = 3;
+    input[1][1] = 4;
+
+    double **weights = MatrixOps::newMatrix(2, 2);
+    weights[0][0] = 0;
+    weights[0][1] = 0;
+    weights[1][0] = 0;
+    weights[1][1] = 0;
+
+    double **bias = MatrixOps::newMatrix(2, 1);
+    bias[0][0] = 1;
+    bias[0][1] = 1;
+
+    double **target_output = MatrixOps::newMatrix(2, 2);
+    target_output[0][0] = 0.5;
+    target_output[0][1] = 0.5;
+    target_output[1][0] = 0.5;
+    target_output[1][1] = 0.5;
+
+    unsigned int *target_classes = new unsigned int[2];
+    target_classes[0] = 1;
+    target_classes[1] = 1;
+
+    LogSigmoid kernel;
+    Ann<LogSigmoid> net(kernel);
+    //Check that error values are not set.
+    ASSERT_DOUBLE_EQ(0, net.getError());
+    ASSERT_DOUBLE_EQ(0, net.getClassificationError());
+
+    net.updateError(
+            input, 2, 2,
+            weights, 2, 2,
+            bias, 2, 1,
+            target_output, 2, 2,
+            target_classes, 2);
+
+    ASSERT_DOUBLE_EQ(0, net.getError());
+    ASSERT_DOUBLE_EQ(0, net.getClassificationError());
+
+    delete[] target_classes;
+    MatrixOps::deleteMatrix(target_output, 2);
+    MatrixOps::deleteMatrix(bias, 2);
+    MatrixOps::deleteMatrix(weights, 2);
+    MatrixOps::deleteMatrix(input, 2);
 }
 

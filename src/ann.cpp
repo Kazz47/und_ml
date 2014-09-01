@@ -41,9 +41,9 @@ double** Ann<K>::feedForward(
     assert(bias_cols == 1);
     assert(input_rows == bias_rows);
     double **input_bias = MatrixOps::horizontalConcat(input, input_rows, input_cols, bias, bias_rows, bias_cols);
-    double **net = MatrixOps::multiply(weights, weights_rows, weights_cols, input_bias, weights_rows, weights_cols + bias_cols);
-    cout << "New Height: " << weights_rows << endl;
-    cout << "New Width: " << weights_cols + bias_cols << endl;
+    double **net = MatrixOps::multiply(weights, weights_rows, weights_cols, input_bias, weights_rows, input_cols + bias_cols);
+    //cout << "New Height: " << weights_rows << endl;
+    //cout << "New Width: " << weights_cols + bias_cols << endl;
     double **result = MatrixOps:: newMatrix(input_rows, input_cols + bias_cols);
     for (size_t r = 0; r < input_rows; r++) {
         for (size_t c = 0; c < input_cols + bias_cols; c++) {
@@ -110,6 +110,46 @@ double** Ann<K>::train(
     MatrixOps::deleteMatrix(bias_validation, validation_rows);
     MatrixOps::deleteMatrix(bias_training, training_rows);
     return weights;
+}
+
+template <typename K>
+void Ann<K>::updateError(
+            double **input, const size_t &input_rows, const size_t &input_cols,
+            double **weights, const size_t &weights_rows, const size_t &weights_cols,
+            double **bias, const size_t &bias_rows, const size_t &bias_cols,
+            double **target_output, const size_t &target_output_rows, const size_t &target_output_cols,
+            unsigned int *target_classes, const size_t &target_classes_rows) {
+
+    double **output = feedForward(
+            input, input_rows, input_cols,
+            weights, weights_rows, weights_cols,
+            bias, bias_rows, bias_cols);
+
+    double **subtracted = MatrixOps::subtract(target_output, output, target_output_rows, target_output_cols);
+    double **squared = MatrixOps::multiply(
+            subtracted, target_output_rows, target_output_cols,
+            subtracted, target_output_rows, target_output_cols);
+    error = MatrixOps::sum(squared, target_output_rows, target_output_cols) / (target_output_rows * target_output_cols);
+
+
+    unsigned int *classes = MatrixOps::matrixToClass(output, target_output_rows, target_output_cols);
+    unsigned int correct_classes = 0;
+    for (size_t r = 0; r < target_classes_rows; r++) {
+        if (classes[r] != target_classes[r]) {
+            correct_classes++;
+        }
+    }
+    classification_error = (double)correct_classes / target_classes_rows;
+}
+
+template<typename K>
+float Ann<K>::getError() {
+    return error;
+}
+
+template<typename K>
+float Ann<K>::getClassificationError() {
+    return classification_error;
 }
 
 // List all Kernels used here.
