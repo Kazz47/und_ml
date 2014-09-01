@@ -186,6 +186,16 @@ public:
      */
     static unsigned int* matrixToClass(double **matrix, const size_t &rows, const size_t &cols);
 
+    /**
+     * Method that returns the sum of all values.
+     *
+     * @param matrix The input matrix.
+     * @param rows Number of rows in the input matrix.
+     * @param cols Number of columns in the input matrix.
+     * @return Sum of the input matrix values.
+     */
+    static double sum(double **matrix, const size_t &rows, const size_t &cols);
+
 private:
 
     /*

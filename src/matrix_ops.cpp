@@ -180,6 +180,17 @@ unsigned int* MatrixOps::matrixToClass(double **matrix, const size_t &rows, cons
     return result;
 }
 
+double MatrixOps::sum(double **matrix, const size_t &rows, const size_t &cols) {
+    double result = 0;
+
+    for (size_t r = 0; r < rows; r++) {
+        for (size_t c = 0; c < cols; c++) {
+            result += matrix[r][c];
+        }
+    }
+    return result;
+}
+
 long MatrixOps::rowInMatrix(double *row, double **matrix, const size_t &rows, const size_t &cols) {
     for (size_t r = 0; r < rows; r++) {
         bool is_equal = true;

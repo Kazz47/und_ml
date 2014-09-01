@@ -573,3 +573,27 @@ TEST(AnnTest, MatrixToClass) {
     MatrixOps::deleteMatrix(matrix, 5);
 }
 
+TEST(MatrixOpsTest, MatrixSum) {
+    // Setup
+    double **matrix = MatrixOps::newMatrix(3, 3);
+    matrix[0][0] = 1;
+    matrix[0][1] = 2;
+    matrix[0][2] = 3;
+    matrix[1][0] = 4;
+    matrix[1][1] = 5;
+    matrix[1][2] = 6;
+    matrix[2][0] = 7;
+    matrix[2][1] = 8;
+    matrix[2][2] = 9;
+
+    double expectedVal = 9+8+7+6+5+4+3+2+1;
+
+    // Test
+    double actualVal = MatrixOps::sum(matrix, 3, 3);
+
+    ASSERT_EQ(expectedVal, actualVal);
+
+    // Tear Down
+    MatrixOps::deleteMatrix(matrix, 3);
+}
+
