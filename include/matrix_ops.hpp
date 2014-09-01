@@ -45,6 +45,8 @@ public:
 
     /**
      * Method that returns the addition of two matrices.
+     * This is a component-wise addition of each item in matrix_one with the
+     * corresponding item in matrix_two.
      * This method allocates memory for the new matrix and will not modify the
      * input matrices.
      *
@@ -55,6 +57,21 @@ public:
      * @return New matrix that is the addition of the two input matrices.
      */
     static double** add(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that returns the subtraction of two matrices.
+     * This is a component-wise subtraction of each item in matrix_two from the
+     * corresponding item in matrix_one.
+     * This method allocates memory for the new matrix and will not modify the
+     * input matrices.
+     *
+     * @param matrix_one The first input matrix.
+     * @param matrix_two The second input matrix.
+     * @param rows Number of rows in the input matrices.
+     * @param cols Number of columns in the input matrices.
+     * @return New matrix that is the subtraction of the two input matrices.
+     */
+    static double** subtract(double **matrix_one, double **matrix_two, const size_t &rows, const size_t &cols);
 
     /**
      * Method that returns a matrix multiplied by a scalar.
