@@ -8,6 +8,8 @@
 
 template <typename K>
 Ann<K>::Ann(K kernel) {
+    this->error = 0;
+    this->classification_error = 0;
     this->kernel = kernel;
     //TODO This should log the seed every time and there should be another
     //constructor that lets you set the seed. This will make for easier

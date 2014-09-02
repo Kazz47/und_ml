@@ -145,8 +145,8 @@ public:
 
 private:
     K kernel;
-    float error = 0;
-    float classification_error = 0;
+    float error;
+    float classification_error;
 };
 
 #endif //ANN_H
