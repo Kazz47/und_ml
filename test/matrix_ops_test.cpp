@@ -597,3 +597,37 @@ TEST(MatrixOpsTest, MatrixSum) {
     MatrixOps::deleteMatrix(matrix, 3);
 }
 
+TEST(MatrixOpsTest, MatrixSplit) {
+    // Setup
+    double **matrix = MatrixOps::newMatrix(3, 3);
+    matrix[0][0] = 1;
+    matrix[0][1] = 2;
+    matrix[0][2] = 3;
+    matrix[1][0] = 4;
+    matrix[1][1] = 5;
+    matrix[1][2] = 6;
+    matrix[2][0] = 7;
+    matrix[2][1] = 8;
+    matrix[2][2] = 9;
+
+    double **expectedVal = MatrixOps::newMatrix(2, 2);
+    expectedVal[0][0] = 5;
+    expectedVal[0][1] = 6;
+    expectedVal[1][0] = 8;
+    expectedVal[1][1] = 9;
+
+    // Test
+    double **actualVal = MatrixOps::split(matrix,
+            1, 2,
+            1, 2);
+
+    for (size_t r = 0; r < 2; r++) {
+        for (size_t c = 0; c < 2; c++) {
+            ASSERT_EQ(expectedVal[r][c], actualVal[r][c]);
+        }
+    }
+
+    // Tear Down
+    MatrixOps::deleteMatrix(matrix, 3);
+}
+

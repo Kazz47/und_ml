@@ -3,9 +3,7 @@
 
 #include <cstddef>
 #include <stdexcept>
-
-using namespace std;
-
+using namespace std; 
 /**
  * Class that contains basic matrix operations.
  */
@@ -195,6 +193,21 @@ public:
      * @return Sum of the input matrix values.
      */
     static double sum(double **matrix, const size_t &rows, const size_t &cols);
+
+    /**
+     * Method that creates a new matrix from some sub-portion of a given
+     * matrix.
+     *
+     * @param matrix The input matrix.
+     * @param start_row Row position in input matrix to start the split.
+     * @param rows Number of rows to add to new matrix.
+     * @param start_col Column position in input matrix to start the split.
+     * @param cols Number of columns to add to new matrix.
+     * @return Sub-matrix.
+     */
+    static double** split(double **matrix,
+            const size_t &start_row, const size_t &rows,
+            const size_t &start_col, const size_t &cols);
 
 private:
 

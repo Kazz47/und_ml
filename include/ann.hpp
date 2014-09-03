@@ -2,6 +2,7 @@
 #define ANN_H
 
 #include <cstddef>
+#include <vector>
 
 using namespace std;
 
@@ -87,21 +88,23 @@ public:
      * This method allocates memory for a matrix of size ?.
      * Call {@link MatrixOps::deleteMatrix} to easily delete the matrix.
      *
-     * @param input Matrix of input values for the ANN.
-     * @param input_rows Number of rows in the input matrix.
-     * @param input_cols Number of columns in the input matrix.
-     * @param weights Matrix of node weights for the ANN.
-     * @param weights_rows Number of rows in the weights matrix.
-     * @param weights_cols Number of columns in the weights matrix.
-     * @param bias Matrix of node bias for the ANN.
-     * @param bias_rows Number of rows in the bias matrix.
-     * @param bias_cols Number of columns in the bias matrix.
+     * @param training Matrix of input values for the ANN.
+     * @param training_rows Number of rows in the input matrix.
+     * @param validation Matrix of node weights for the ANN.
+     * @param validation_rows Number of rows in the weights matrix.
+     * @param test Matrix of node bias for the ANN.
+     * @param test_rows Number of rows in the bias matrix.
+     * @param cols Number of columns in the data sets.
+     * @param data_cols Number of columns of data to train on, the remaining
+     * columns are the classification columns.
      * @return The resulting weight matrix.
      */
     double** train(
-            double **training, const size_t &training_rows, const size_t &training_cols,
-            double **validation, const size_t &validation_rows, const size_t &validation_cols,
-            double **test, const size_t &test_rows, const size_t &test_cols);
+            double **training, const size_t &training_rows,
+            double **validation, const size_t &validation_rows,
+            double **test, const size_t &test_rows,
+            const size_t &cols,
+            const size_t &data_cols);
 
     /**
      * Method to calculate the error of an ANN sets the error and classification error.
@@ -130,23 +133,61 @@ public:
             unsigned int *target_classes, const size_t &target_classes_rows);
 
     /**
-     * Get the current network error.
+     * Get the network error from training.
      *
-     * @return The network error.
+     * @param Pointer to store the array length.
+     * @return The network error array.
      */
-    float getError();
+    float* getTrainingError(size_t *length);
 
     /**
-     * Get the current network classification error.
+     * Get the network classification error from traning.
      *
-     * @return The classification error.
+     * @param Pointer to store the array length.
+     * @return The classification error array.
      */
-    float getClassificationError();
+    float* getTrainingClassificationError(size_t *length);
+
+    /**
+     * Get the network error from training.
+     *
+     * @param Pointer to store the array length.
+     * @return The network error array.
+     */
+    //float* getValidationError(size_t *length);
+
+    /**
+     * Get the network classification error from traning.
+     *
+     * @param Pointer to store the array length.
+     * @return The classification error array.
+     */
+    //float* getValidationClassificationError(size_t *length);
+
+    /**
+     * Get the network error from training.
+     *
+     * @param Pointer to store the array length.
+     * @return The network error array.
+     */
+    //float* getTestError(size_t *length);
+
+    /**
+     * Get the network classification error from traning.
+     *
+     * @param Pointer to store the array length.
+     * @return The classification error array.
+     */
+    //float* getTestClassificationError(size_t *length);
 
 private:
     K kernel;
-    float error;
-    float classification_error;
+    vector<float> training_error;
+    vector<float> training_classification_error;
+    vector<float> validation_error;
+    vector<float> validation_classification_error;
+    vector<float> test_error;
+    vector<float> test_classification_error;
 };
 
 #endif //ANN_H

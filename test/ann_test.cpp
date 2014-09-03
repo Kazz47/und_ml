@@ -30,9 +30,9 @@ TEST(AnnTest, DISABLED_FeedForwardLogSigmoid) {
     input[1][1] = 4;
 
     double **weights = MatrixOps::newMatrix(2, 2);
-    weights[0][0] = 1;
+    weights[0][0] = 0;
     weights[0][1] = 0;
-    weights[1][0] = 1;
+    weights[1][0] = 0;
     weights[1][1] = 0;
 
     double **bias = MatrixOps::newMatrix(2, 1);
@@ -72,50 +72,63 @@ TEST(AnnTest, BackProp) {
     input[1][0] = 3;
     input[1][1] = 4;
 
-    double **weights = MatrixOps::newMatrix(2, 2);
+    double **weights = MatrixOps::newMatrix(3, 4);
     weights[0][0] = 0;
     weights[0][1] = 0;
+    weights[0][2] = 0;
+    weights[0][3] = 0;
     weights[1][0] = 0;
     weights[1][1] = 0;
+    weights[1][2] = 0;
+    weights[1][3] = 0;
+    weights[2][0] = 0;
+    weights[2][1] = 0;
+    weights[2][2] = 0;
+    weights[2][3] = 0;
 
     double **bias = MatrixOps::newMatrix(2, 1);
     bias[0][0] = 1;
-    bias[0][1] = 1;
+    bias[1][0] = 1;
 
-    double **expectedVal = MatrixOps::newMatrix(2, 2);
+    double **expectedVal = MatrixOps::newMatrix(3, 4);
     expectedVal[0][0] = 0;
     expectedVal[0][1] = 0;
+    expectedVal[0][2] = 0;
+    expectedVal[0][3] = 0;
     expectedVal[1][0] = 0;
     expectedVal[1][1] = 0;
+    expectedVal[1][2] = 0;
+    expectedVal[1][3] = 0;
+    expectedVal[2][0] = 0;
+    expectedVal[2][1] = 0;
+    expectedVal[2][2] = 0;
+    expectedVal[2][3] = 0;
 
     LogSigmoid kernel;
     Ann<LogSigmoid> net(kernel);
     double **actualVal = net.backProp(
             input, 2, 2,
-            weights, 2, 2,
+            weights, 3, 4,
             bias, 2, 1,
             1);
-    for (int r = 0; r < 2; r++) {
-        for (int c = 0; c < 2; c++) {
+    for (int r = 0; r < 3; r++) {
+        for (int c = 0; c < 4; c++) {
             ASSERT_DOUBLE_EQ(expectedVal[r][c], actualVal[r][c]);
         }
     }
 
-    MatrixOps::deleteMatrix(actualVal, 2);
-    MatrixOps::deleteMatrix(expectedVal, 2);
+    MatrixOps::deleteMatrix(actualVal, 3);
+    MatrixOps::deleteMatrix(expectedVal, 3);
     MatrixOps::deleteMatrix(bias, 2);
-    MatrixOps::deleteMatrix(weights, 2);
+    MatrixOps::deleteMatrix(weights, 3);
     MatrixOps::deleteMatrix(input, 2);
 }
 
 //TODO Update this test, currently it just checks that the train method returns
 //randomly genereated weights.
 TEST(AnnTest, Train) {
-    double **training = MatrixOps::newMatrix(2, 2);
-    training[0][0] = 1;
-    training[0][1] = 2;
-    training[1][0] = 3;
-    training[1][1] = 4;
+    double **training = MatrixOps::newMatrix(2, 2); training[0][0] = 1; training[0][1] = 1;
+    training[1][0] = 3; training[1][1] = 1;
 
     double **validation = MatrixOps::newMatrix(2, 2);
     validation[0][0] = 0;
@@ -130,11 +143,14 @@ TEST(AnnTest, Train) {
     LogSigmoid kernel;
     Ann<LogSigmoid> net(kernel);
     double **actualVal = net.train(
-            training, 2, 2,
-            validation, 2, 2,
-            test, 2, 2);
+            training, 2,
+            validation, 2,
+            test, 2,
+            2,
+            1);
+
     for (int r = 0; r < 1; r++) {
-        for (int c = 0; c < 2; c++) {
+        for (int c = 0; c < 1; c++) {
             ASSERT_LT(actualVal[r][c], 0.5);
             ASSERT_GT(actualVal[r][c], -0.5);
         }
@@ -146,28 +162,25 @@ TEST(AnnTest, Train) {
     MatrixOps::deleteMatrix(training, 2);
 }
 
-TEST(AnnTest, SetError) {
-    double **input = MatrixOps::newMatrix(2, 2);
+//TODO Update this so error is not 0.
+TEST(AnnTest, UpdateError) {
+    double **input = MatrixOps::newMatrix(2, 1);
     input[0][0] = 1;
-    input[0][1] = 2;
-    input[1][0] = 3;
-    input[1][1] = 4;
+    input[1][0] = 2;
 
     double **weights = MatrixOps::newMatrix(2, 2);
     weights[0][0] = 0;
-    weights[0][1] = 0;
+    weights[0][1] = 0; //Bias Weight
     weights[1][0] = 0;
-    weights[1][1] = 0;
+    weights[1][1] = 0; //Bias Weight
 
     double **bias = MatrixOps::newMatrix(2, 1);
     bias[0][0] = 1;
-    bias[0][1] = 1;
+    bias[1][0] = 1;
 
-    double **target_output = MatrixOps::newMatrix(2, 2);
+    double **target_output = MatrixOps::newMatrix(2, 1);
     target_output[0][0] = 0.5;
-    target_output[0][1] = 0.5;
     target_output[1][0] = 0.5;
-    target_output[1][1] = 0.5;
 
     unsigned int *target_classes = new unsigned int[2];
     target_classes[0] = 1;
@@ -176,19 +189,29 @@ TEST(AnnTest, SetError) {
     LogSigmoid kernel;
     Ann<LogSigmoid> net(kernel);
     //Check that error values are not set.
-    ASSERT_DOUBLE_EQ(0, net.getError());
-    ASSERT_DOUBLE_EQ(0, net.getClassificationError());
+    size_t error_length = 0;
+    size_t classification_error_length = 0;
+    float *error = net.getTrainingError(&error_length);
+    float *classification_error = net.getTrainingClassificationError(&classification_error_length);
+    ASSERT_EQ(0, error_length);
+    ASSERT_EQ(0, classification_error_length);
 
     net.updateError(
-            input, 2, 2,
+            input, 2, 1,
             weights, 2, 2,
             bias, 2, 1,
-            target_output, 2, 2,
+            target_output, 2, 1,
             target_classes, 2);
 
-    ASSERT_DOUBLE_EQ(0, net.getError());
-    ASSERT_DOUBLE_EQ(0, net.getClassificationError());
+    error = net.getTrainingError(&error_length);
+    classification_error = net.getTrainingClassificationError(&classification_error_length);
+    ASSERT_EQ(1, error_length);
+    ASSERT_EQ(1, classification_error_length);
+    ASSERT_FLOAT_EQ(0, error[0]);
+    ASSERT_FLOAT_EQ(0, classification_error[0]);
 
+    delete[] error;
+    delete[] classification_error;
     delete[] target_classes;
     MatrixOps::deleteMatrix(target_output, 2);
     MatrixOps::deleteMatrix(bias, 2);

@@ -66,7 +66,7 @@ double** MatrixOps::multiply (
     // We check for correct matrix sizes before allocating any memory.
     if (cols_one != rows_two) {
         //TODO This should be logged.
-        throw logic_error("Matrices are not of compatible size.");
+        throw logic_error("Multiply: Matrices are not of compatible size.");
     }
 
     double **result = newMatrix(rows_one, cols_two);
@@ -119,7 +119,7 @@ double** MatrixOps::horizontalConcat(
     // We check for correct matrix sizes before allocating any memory.
     if (rows_one != rows_two) {
         //TODO This should be logged.
-        throw logic_error("Matrices are not of compatible size.");
+        throw logic_error("Horizontal Concat: Matrices are not of compatible size.");
     }
     double **result = newMatrix(rows_one, cols_one + cols_two);
 
@@ -141,7 +141,7 @@ double** MatrixOps::verticalConcat(
     // We check for correct matrix sizes before allocating any memory.
     if (cols_one != cols_two) {
         //TODO This should be logged.
-        throw logic_error("Matrices are not of compatible size.");
+        throw logic_error("Vertical Concat: Matrices are not of compatible size.");
     }
     double **result = newMatrix(rows_one + rows_two, cols_one);
 
@@ -186,6 +186,18 @@ double MatrixOps::sum(double **matrix, const size_t &rows, const size_t &cols) {
     for (size_t r = 0; r < rows; r++) {
         for (size_t c = 0; c < cols; c++) {
             result += matrix[r][c];
+        }
+    }
+    return result;
+}
+
+double** MatrixOps::split(double **matrix,
+        const size_t &start_row, const size_t &rows,
+        const size_t &start_col, const size_t &cols) {
+    double **result = newMatrix(rows, cols);
+    for (size_t r = 0; r < rows; r++) {
+        for (size_t c = 0; c < cols; c++) {
+            result[r][c] = matrix[r+start_row][c+start_col];
         }
     }
     return result;
