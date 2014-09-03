@@ -51,12 +51,14 @@ public:
      * @param bias Matrix of node bias for the ANN.
      * @param bias_rows Number of rows in the bias matrix.
      * @param bias_cols Number of columns in the bias matrix.
+     * @param output_cols Number of columns in the output matrix.
      * @return The resulting classification matrix.
      */
     double** feedForward(
             double **input, const size_t &input_rows, const size_t &input_cols,
             double **weights, const size_t &weights_rows, const size_t &weights_cols,
-            double **bias, const size_t &bias_rows, const size_t &bias_cols);
+            double **bias, const size_t &bias_rows, const size_t &bias_cols,
+            const size_t &output_cols);
 
     /**
      * Method to backpropagate through the ANN and get an updated weight matrix.

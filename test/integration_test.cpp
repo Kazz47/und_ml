@@ -49,10 +49,10 @@ TEST(IntegrationTest, Test) {
     for (int r = 0; r < data_cols + 1; r++) {
         for (int c = 0; c < cols - data_cols; c++) {
             //cout << result[r][c] << " ";
-            //ASSERT_LT(result[r][c], 0.5);
-            //ASSERT_GT(result[r][c], -0.5);
+            ASSERT_LT(result[r][c], 0.5);
+            ASSERT_GT(result[r][c], -0.5);
         }
-        cout << endl;
+        //cout << endl;
     }
 
     MatrixOps::deleteMatrix(result, data_cols + 1);

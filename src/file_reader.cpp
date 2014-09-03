@@ -3,6 +3,7 @@
 #include <sstream>
 #include <iterator>
 #include <string>
+#include <vector>
 #include <cassert>
 #include <iostream>
 
@@ -57,18 +58,18 @@ double** FileReader::getMatrix(size_t *rows, size_t *cols) {
 
     double **matrix = MatrixOps::newMatrix(*rows, *cols);
 
+    infile.clear();
     infile.seekg(0);
     size_t r = 0;
     while (getline(infile, line)) {
         istringstream iss(line);
         istream_iterator<double> eos;
         istream_iterator<double> it(iss);
+        //TODO This can be cleaned up.
+        vector<double> tokens(it, eos);
 
-        size_t c = 0;
-        while (it != eos) {
-            matrix[r][c] = *it;
-            c++;
-            it++;
+        for (size_t c = 0; c < tokens.size(); c++) {
+            matrix[r][c] = tokens[c];
         }
         r++;
     }

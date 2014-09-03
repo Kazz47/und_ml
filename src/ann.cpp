@@ -38,7 +38,8 @@ template <typename K>
 double** Ann<K>::feedForward(
         double **input, const size_t &input_rows, const size_t &input_cols,
         double **weights, const size_t &weights_rows, const size_t &weights_cols,
-        double **bias, const size_t &bias_rows, const size_t &bias_cols) {
+        double **bias, const size_t &bias_rows, const size_t &bias_cols,
+        const size_t &output_cols) {
     assert(bias_cols == 1);
     assert(input_rows == bias_rows);
     assert(weights_rows == input_cols + 1);
@@ -47,13 +48,13 @@ double** Ann<K>::feedForward(
     //cout << "Input: " << input_rows << "," << input_cols + bias_cols << endl;
     double **net = MatrixOps::multiply(input_bias, input_rows, input_cols + bias_cols, weights, weights_rows, weights_cols);
     MatrixOps::deleteMatrix(input_bias, input_rows);
-    double **result = MatrixOps::newMatrix(input_rows, input_cols + bias_cols);
+    double **result = MatrixOps::newMatrix(input_rows, output_cols);
     for (size_t r = 0; r < input_rows; r++) {
-        for (size_t c = 0; c < weights_cols; c++) {
+        for (size_t c = 0; c < output_cols; c++) {
             result[r][c] = kernel.kernelFunc(net[r][c]);
         }
     }
-    MatrixOps::deleteMatrix(net, weights_rows);
+    MatrixOps::deleteMatrix(net, input_rows);
     return result;
 }
 
@@ -143,7 +144,8 @@ void Ann<K>::updateError(
     double **output = feedForward(
             input, input_rows, input_cols,
             weights, weights_rows, weights_cols,
-            bias, bias_rows, bias_cols);
+            bias, bias_rows, bias_cols,
+            target_output_cols);
 
     double **subtracted = MatrixOps::subtract(target_output, output, target_output_rows, target_output_cols);
     double **squared = MatrixOps::hadamardMultiply(subtracted, subtracted, target_output_rows, target_output_cols);
