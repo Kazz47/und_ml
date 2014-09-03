@@ -49,7 +49,7 @@ double** Ann<K>::feedForward(
     MatrixOps::deleteMatrix(input_bias, input_rows);
     double **result = MatrixOps::newMatrix(input_rows, input_cols + bias_cols);
     for (size_t r = 0; r < input_rows; r++) {
-        for (size_t c = 0; c < input_cols + bias_cols; c++) {
+        for (size_t c = 0; c < weights_cols; c++) {
             result[r][c] = kernel.kernelFunc(net[r][c]);
         }
     }
@@ -113,7 +113,7 @@ double** Ann<K>::train(
                 weights, data_cols + 1, cols - data_cols,
                 bias_training, training_rows, 1,
                 0.1);
-        MatrixOps::deleteMatrix(weights, 1);
+        MatrixOps::deleteMatrix(weights, data_cols + 1);
         weights = new_weights;
         updateError(
                training, training_rows, data_cols,
@@ -122,11 +122,9 @@ double** Ann<K>::train(
                class_data, training_rows, cols - data_cols,
                classes, training_rows);
     }
-    /*
-    for (int c = 0; c < cols; c++) {
-        cout << weights[0][c] << endl;
-    }
-    */
+
+    delete[] classes;
+    MatrixOps::deleteMatrix(class_data, training_rows);
     MatrixOps::deleteMatrix(bias_test, test_rows);
     MatrixOps::deleteMatrix(bias_validation, validation_rows);
     MatrixOps::deleteMatrix(bias_training, training_rows);

@@ -3,7 +3,7 @@
 #include "ann.hpp"
 #include "log_sigmoid.hpp"
 
-TEST(AnnTest, WeightInitilzation) {
+TEST(AnnTest, RandomWeightInitilzation) {
     LogSigmoid kernel;
     Ann<LogSigmoid> net(kernel);
     double max_val = 50;
@@ -127,8 +127,11 @@ TEST(AnnTest, BackProp) {
 //TODO Update this test, currently it just checks that the train method returns
 //randomly genereated weights.
 TEST(AnnTest, Train) {
-    double **training = MatrixOps::newMatrix(2, 2); training[0][0] = 1; training[0][1] = 1;
-    training[1][0] = 3; training[1][1] = 1;
+    double **training = MatrixOps::newMatrix(2, 2);
+    training[0][0] = 1;
+    training[0][1] = 1;
+    training[1][0] = 1;
+    training[1][1] = 1;
 
     double **validation = MatrixOps::newMatrix(2, 2);
     validation[0][0] = 0;
@@ -156,13 +159,12 @@ TEST(AnnTest, Train) {
         }
     }
 
-    MatrixOps::deleteMatrix(actualVal, 1);
+    MatrixOps::deleteMatrix(actualVal, 1 + 1);
     MatrixOps::deleteMatrix(test, 2);
     MatrixOps::deleteMatrix(validation, 2);
     MatrixOps::deleteMatrix(training, 2);
 }
 
-//TODO Update this so error is not 0.
 TEST(AnnTest, UpdateError) {
     double **input = MatrixOps::newMatrix(2, 1);
     input[0][0] = 1;
@@ -195,6 +197,9 @@ TEST(AnnTest, UpdateError) {
     float *classification_error = net.getTrainingClassificationError(&classification_error_length);
     ASSERT_EQ(0, error_length);
     ASSERT_EQ(0, classification_error_length);
+
+    delete[] error;
+    delete[] classification_error;
 
     net.updateError(
             input, 2, 1,

@@ -1,7 +1,6 @@
 #ifndef LOG_SIGMOID_H
 #define LOG_SIGMOID_H
 
-#include <cmath>
 #include "kernel.hpp"
 
 /**

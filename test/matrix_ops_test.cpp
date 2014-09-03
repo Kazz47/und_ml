@@ -628,6 +628,8 @@ TEST(MatrixOpsTest, MatrixSplit) {
     }
 
     // Tear Down
+    MatrixOps::deleteMatrix(actualVal, 2);
+    MatrixOps::deleteMatrix(expectedVal, 2);
     MatrixOps::deleteMatrix(matrix, 3);
 }
 
